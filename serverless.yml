@@ -1,0 +1,63 @@
+service: upstash-rest-api
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  region: us-east-1
+  stage: dev
+  runtime: nodejs12.x
+  lambdaHashingVersion: "20201221"
+  environment:
+    REDIS_CLIENT: "rediss://:2c9bb162c2444bf7ab689640bb2ead23@gusc1-smashing-wasp-30249.upstash.io:30249"
+
+functions:
+  createUser:
+    handler: user/create.createUser
+    events:
+      - http:
+          path: /user
+          method: post
+  getUser:
+    handler: user/get.getUserById
+    events:
+      - http:
+          path: /user/{id}
+          method: get
+  updateUser:
+    handler: user/update.updateUser
+    events:
+      - http:
+          path: /user/{id}
+          method: put
+  listUsers:
+    handler: user/list.getAllUsers
+    events:
+      - http:
+          path: /users
+          method: get
+  createPost:
+    handler: post/create.createPost
+    events:
+      - http:
+          path: /post
+          method: post
+  getPost:
+    handler: post/get.getPostById
+    events:
+      - http:
+          path: /post/{id}
+          method: get
+
+  listPosts:
+    handler: post/list.getAllPosts
+    events:
+      - http:
+          path: /posts
+          method: get
+  reactToPosts:
+    handler: post/react_to_post.reactToPost
+    events:
+      - http:
+          path: /post/{id}/react
+          method: post
