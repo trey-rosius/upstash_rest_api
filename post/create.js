@@ -41,7 +41,7 @@ module.exports.createPost = async (event) => {
             "postImage", data.postImage,
             "createdOn", timestamp),
         await client.lpush('posts', postId),
-        await client.lpush(`userPost:${userId}`, postId)
+        await client.lpush(`userPost:${data.userId}`, postId)
     )
 
     //get and display saved post item

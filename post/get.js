@@ -9,8 +9,8 @@ if (typeof client === 'undefined') {
 
 module.exports.getPostById = async (event) => {
 
-    const userId = event.pathParameters.id;
-    if (userId == null) {
+    const postId = event.pathParameters.id;
+    if (postId == null) {
         return {
             statusCode: 400,
             body: JSON.stringify({
@@ -30,7 +30,7 @@ module.exports.getPostById = async (event) => {
     const userItem = await client.hgetall(`userItem:${postItem.userId}`);
     const postReactionsCount = await client.get(`postReactionsCount:${postId}`);
     postItem["postAdmin"] = userItem;
-    postItem["reactionCount"] = postReactionsCount;
+    postItem["reactionCount"] = postReactionsCount == null ? 0 : parseInt(postReactionsCount);
     console.log(postItem);
     console.log(userItem);
 

@@ -4,7 +4,6 @@ var Redis = require("ioredis");
 const username = 'username';
 const firstName = 'firstName';
 const lastName = 'lastName';
-const age = 'age';
 const profilePic = 'profilePic';
 
 if (typeof client === 'undefined') {

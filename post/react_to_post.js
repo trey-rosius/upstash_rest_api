@@ -41,7 +41,7 @@ module.exports.reactToPost = async (event) => {
         client.pipeline(
             await client.incr(`postReactionsCount:${postId}`),
             await client.zadd(`postReactions:${postId}`, timestamp, data.userId),
-            await client.hmset(`userPostReactions:${data.userId}:${postId}`,
+            await client.hmset(`userPostReactions:${data.userId}`,
                 "postId", postId,
                 "userId", data.userId,
                 "timestamp", timestamp
@@ -54,7 +54,7 @@ module.exports.reactToPost = async (event) => {
         client.pipeline(
             await client.decr(`postReactionsCount:${postId}`),
             await client.zrem(`postReactions:${postId}`, data.userId),
-            await client.hdel(`userPostReactions:${data.userId}:${postId}`,
+            await client.hdel(`userPostReactions:${data.userId}`,
                 "postId", postId,
                 "userId", data.userId,
                 "timestamp", timestamp
@@ -76,7 +76,7 @@ module.exports.reactToPost = async (event) => {
     return {
         statusCode: 200,
         body: JSON.stringify({
-            "postReactionCount": postReactionsCount
+            "postReactionCount": parseInt(postReactionsCount)
         }),
 
     };
